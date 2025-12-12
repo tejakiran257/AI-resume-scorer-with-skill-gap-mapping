@@ -1,0 +1,15 @@
+<div class="card p-3 mb-3">
+  <h6>ATS Items</h6>
+  <ul>
+    {% for key, ok, msg in ats %}
+      <li>
+        {{ msg }}
+        {% if not ok %}
+          <span class="badge bg-danger ms-2">Fix</span>
+        {% else %}
+          <span class="badge bg-success ms-2">OK</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>

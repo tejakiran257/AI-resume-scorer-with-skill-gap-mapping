@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-4 shadow-sm">
+  <h4>All Resumes</h4>
+  <ul class="list-group mt-3">
+    {% for r in resumes %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ r.original_filename }}</strong>
+          <div class="small text-muted">Uploaded: {{ r.uploaded_at.strftime("%Y-%m-%d %H:%M") }} • By: {{ uploader_map.get(r.uploaded_by, 'unknown') }}</div>
+        </div>
+        <div>
+          <a class="btn btn-sm btn-outline-info" href="{{ url_for('recruiter_view_resume', rid=r.id) }}">View</a>
+          <a class="btn btn-sm btn-outline-primary" href="{{ url_for('analyze_stored', rid=r.id) }}">Analyze</a>
+          <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('recruiter_download', rid=r.id) }}">Download</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

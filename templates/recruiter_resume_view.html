@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <h3>Resume: {{ r.original_filename }}</h3>
+      {% if uploader %}<div class="small">Uploaded by: {{ uploader.email }}</div>{% endif %}
+    </div>
+    <div>
+      <a class="btn btn-ghost" href="{{ url_for('recruiter_dashboard') }}">Back</a>
+      <a class="btn btn-primary" href="{{ url_for('recruiter_download', rid=r.id) }}">Download</a>
+    </div>
+  </div>
+
+  <hr>
+  <div>
+    <h6>Extracted text</h6>
+    {% if r.text %}
+      <pre class="resume-text">{{ r.text }}</pre>
+    {% else %}
+      <div class="small" style="color:var(--muted)">No extracted text.</div>
+    {% endif %}
+  </div>
+
+  <hr>
+  <div>
+    <h6>Analyze against JD</h6>
+    <form method="post" action="{{ url_for('recruiter_view_resume', rid=r.id) }}">
+      <div class="mb-2"><textarea name="jd_text" rows="5" class="form-control" placeholder="Paste JD here">{{ result.jd_text if result }}</textarea></div>
+      <div style="display:flex;gap:8px">
+        <select name="months" class="form-select" style="width:160px">
+          <option value="2" {% if result and result.months==2 %}selected{% endif %}>2 months</option>
+          <option value="3" {% if not result or result.months==3 %}selected{% endif %}>3 months</option>
+          <option value="4" {% if result and result.months==4 %}selected{% endif %}>4 months</option>
+        </select>
+        <button class="btn btn-primary">Analyze</button>
+      </div>
+    </form>
+  </div>
+
+  {% if result %}
+    <hr>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <h4 style="margin:0">{{ result.score }} / 100</h4>
+        <div class="small">Skill match: {{ result.skill_pct }}% • Semantic: {{ result.semantic_pct }}%</div>
+      </div>
+      <div>
+        <a class="btn btn-ghost" href="{{ url_for('route_map', rid=result.rid, months=result.months) }}" target="_blank">Open Route Map</a>
+        <a class="btn btn-primary" href="{{ url_for('job_suggestions', rid=result.rid) }}" target="_blank">Job Suggestions</a>
+        <a class="btn btn-ghost" href="{{ url_for('ats_improvement', rid=result.rid) }}" target="_blank">ATS Guide</a>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:12px">
+      <div class="card" style="flex:1">
+        <h6>Missing skills</h6>
+        {% if result.missing %}{% for s in result.missing %}<div class="badge badge-warning" style="margin:4px">{{ s }}</div>{% endfor %}{% else %}<div class="small" style="color:var(--muted)">None</div>{% endif %}
+      </div>
+
+      <div class="card" style="flex:1">
+        <h6>ATS checks</h6>
+        <ul class="small">
+          {% for key,ok in result.ats %}
+            <li>{{ key }} — {% if ok %}<span style="color:#059669">OK</span>{% else %}<span style="color:#dc2626">Fix</span>{% endif %}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="card" style="flex:1">
+        <h6>Job suggestions</h6>
+        <ul>
+          {% for j in result.jobs %}<li>{{ j }}</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+    <div>
+      <h6>Roadmap</h6>
+      {% for m in range(1, result.months+1) %}
+        <div class="card" style="margin-bottom:8px">
+          <strong>Month {{ m }}</strong>
+          <ul>
+            {% for it in result.timeline.get(m, []) %}<li>{{ it }}</li>{% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-4 shadow-sm">
+  <h4>Job Suggestions</h4>
+  <small class="text-muted">File: {{ filename }}</small>
+
+  <ul class="list-group mt-3">
+    {% for j in jobs %}
+      <li class="list-group-item">{{ j }}</li>
+    {% endfor %}
+  </ul>
+
+  <a class="btn btn-outline-secondary mt-3" href="#" onclick="history.back()">Back</a>
+</div>
+{% endblock %}

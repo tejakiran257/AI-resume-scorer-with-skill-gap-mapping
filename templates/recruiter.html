@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>Recruiter Dashboard</h3>
+  <p class="small">Paste a Job Description or upload a JD file to score and rank all resumes.</p>
+
+  <form method="post" action="{{ url_for('recruiter_match_jd') }}" enctype="multipart/form-data" style="margin-top:14px">
+    <textarea name="jd_text" rows="4" class="form-control mb-2" placeholder="Paste JD here..."></textarea>
+    <div style="display:flex;gap:8px">
+      <input type="file" name="jd_file" accept=".txt,.docx" class="form-control">
+      <button class="btn btn-primary">Match JD to Resumes</button>
+    </div>
+  </form>
+
+  <hr>
+  <h5>Recent uploads</h5>
+  <ul style="margin-top:12px">
+    {% for r in recent %}
+      <li class="list-item">
+        <div>
+          <strong>{{ r.original_filename }}</strong><br><small class="small">{{ r.uploaded_at.strftime('%Y-%m-%d %H:%M') }}</small>
+        </div>
+        <div>
+          <a class="btn btn-ghost" href="{{ url_for('recruiter_view_resume', rid=r.id) }}">Open</a>
+          <a class="btn btn-primary" href="{{ url_for('analyze_stored', rid=r.id) }}">Analyze</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

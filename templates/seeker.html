@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>My Resumes</h3>
+  <p class="small">Upload a resume (.txt or .docx). The system will extract text and make it available for recruiters to analyze.</p>
+
+  <form method="post" action="{{ url_for('seeker_dashboard') }}" enctype="multipart/form-data" style="margin-top:12px">
+    <input type="file" name="resume_file" accept=".txt,.docx" class="form-control mb-2" required>
+    <div><button class="btn btn-primary">Upload Resume</button></div>
+  </form>
+
+  <hr>
+  <h5>Uploaded resumes</h5>
+  {% if resumes %}
+    <ul class="list-group" style="margin-top:10px">
+      {% for r in resumes %}
+      <li class="list-group-item">
+        <div>
+          <strong>{{ r.original_filename }}</strong><br>
+          <small class="small">{{ r.uploaded_at.strftime('%Y-%m-%d %H:%M') }}</small>
+        </div>
+        <div>
+          <a class="btn btn-ghost" href="{{ url_for('uploaded_file', filename=r.filename) }}">Download</a>
+          <a class="btn btn-primary" href="{{ url_for('analyze_stored', rid=r.id) }}">Analyze</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="small" style="margin-top:12px;color:var(--muted)">No resumes yet. Upload one to get started.</div>
+  {% endif %}
+</div>
+{% endblock %}

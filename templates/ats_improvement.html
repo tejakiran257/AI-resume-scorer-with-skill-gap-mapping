@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>ATS Improvement Guide</h3>
+  <ul>{% for fix in improvements %}<li>{{ fix }}</li>{% endfor %}</ul>
+</div>
+{% endblock %}

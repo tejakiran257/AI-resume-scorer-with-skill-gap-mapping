@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>Results — {{ result.score }} / 100</h3>
+  <div class="small">Missing skills:</div>
+  {% if result.missing %}{% for s in result.missing %}<span class="badge badge-warning">{{ s }}</span>{% endfor %}{% else %}<div class="small" style="color:var(--muted)">None</div>{% endif %}
+  <hr>
+  <h5>ATS snapshot</h5>
+  <ul>
+    {% for key,ok in result.ats %}
+      <li>{{ key }} — {% if ok %}<span style="color:#059669">OK</span>{% else %}<span style="color:#dc2626">Fix</span>{% endif %}</li>
+    {% endfor %}
+  </ul>
+
+  <div style="margin-top:12px">
+    <a class="btn btn-primary" href="{{ url_for('route_map', rid=result.rid, months=result.months) }}">Route Map</a>
+    <a class="btn btn-ghost" href="{{ url_for('job_suggestions', rid=result.rid) }}">Job Suggestions</a>
+    <a class="btn btn-ghost" href="{{ url_for('ats_improvement', rid=result.rid) }}">ATS Guide</a>
+  </div>
+</div>
+{% endblock %}

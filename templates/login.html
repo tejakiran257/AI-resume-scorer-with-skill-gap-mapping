@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card glass p-4 shadow">
+      <h3 class="mb-3">Login</h3>
+      <form method="post" action="{{ url_for('login') }}">
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input class="form-control" name="email" required placeholder="you@example.com">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Role</label>
+          <select name="role" class="form-select">
+            <option value="seeker" {% if role=='seeker' %}selected{% endif %}>Jobseeker</option>
+            <option value="recruiter" {% if role=='recruiter' %}selected{% endif %}>Recruiter</option>
+          </select>
+        </div>
+        <button class="btn btn-primary w-100">Login</button>
+      </form>
+      <hr>
+      <div class="text-center small">Don't have an account? <a href="{{ url_for('register') }}">Register</a></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

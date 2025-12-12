@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>Job Suggestions</h3>
+  <ul>{% for j in suggestions %}<li>{{ j }}</li>{% endfor %}</ul>
+</div>
+{% endblock %}

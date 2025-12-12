@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow-sm p-4 mb-4">
+  <div class="d-flex justify-content-between">
+    <div>
+      <h4>Job / Resume Skills</h4>
+      <small class="text-muted">File: {{ filename }}</small>
+    </div>
+    <div class="text-end">
+      <div class="fw-bold">{{ score }} / 100</div>
+      <div class="small text-muted">Skill: {{ skill_pct }}% • Semantic: {{ sem_pct }}%</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card p-3">
+      <h6>Skills found in Resume</h6>
+      {% if resume_skills %}
+        <ul>{% for s in resume_skills %}<li>{{ s }}</li>{% endfor %}</ul>
+      {% else %}
+        <p class="text-muted"><em>No skills detected.</em></p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card p-3">
+      <h6>Skills from JD</h6>
+      {% if jd_skills %}
+        <ul>{% for s in jd_skills %}<li>{{ s }}</li>{% endfor %}</ul>
+      {% else %}
+        <p class="text-muted"><em>No JD skills provided.</em></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<a class="btn btn-outline-secondary mt-4" href="#" onclick="history.back()">Back to Results</a>
+{% endblock %}

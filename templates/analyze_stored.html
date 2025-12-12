@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>Analyze stored resume: {{ r.original_filename }}</h3>
+  <form method="post" action="{{ url_for('analyze_stored', rid=r.id) }}">
+    <div class="mb-2"><textarea name="jd_text" rows="6" class="form-control" placeholder="Paste Job Description (optional)"></textarea></div>
+    <div style="display:flex;gap:8px">
+      <select name="months" class="form-select" style="width:160px">
+        <option value="2">2 months</option><option value="3" selected>3 months</option><option value="4">4 months</option>
+      </select>
+      <button class="btn btn-primary">Analyze</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

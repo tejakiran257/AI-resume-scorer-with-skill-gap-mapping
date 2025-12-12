@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card login-hero">
+  <div style="flex:1">
+    <h2>Recruiter sign in</h2>
+    <p class="small">Paste a Job Description to rank stored resumes instantly and get actionable gaps.</p>
+    <div style="margin-top:12px">
+      <a class="btn btn-primary" href="{{ url_for('register') }}">Sign up</a>
+    </div>
+  </div>
+  <div class="auth-box" style="flex:1">
+    <form method="post" action="{{ url_for('login') }}">
+      <input type="hidden" name="role" value="recruiter">
+      <div class="mb-2"><input name="email" class="form-control" placeholder="recruiter@example.com" required></div>
+      <div class="mb-2"><input name="password" type="password" class="form-control" placeholder="Password" required></div>
+      <div><button class="btn btn-primary w-100">Sign in</button></div>
+      <div class="small" style="margin-top:8px;color:var(--muted)">Demo: recruiter@example.com / recruit123</div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow-sm p-4 mb-4">
+  <h4>ATS Checks & Suggestions</h4>
+  <small class="text-muted">File: {{ filename }}</small>
+</div>
+
+<div class="card p-3 mb-3">
+  <h6>ATS Items</h6>
+  <ul>
+    {% for key, ok, msg in ats %}
+      <li class="mb-2">
+        {{ msg }}
+        {% if ok %}
+          <span class="badge bg-success ms-2">OK</span>
+        {% else %}
+          <span class="badge bg-danger ms-2">Fix</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="card p-3 mb-3">
+  <h6>Quick fixes (copy-paste)</h6>
+  <div class="small text-muted">
+    {% for key, ok, msg in ats %}
+      {% if not ok %}
+        <div class="mb-2">
+          <strong>{{ msg }}</strong>
+          <div>Suggestion:
+            {% if key == 'email' %}
+              Add contact: <code>jane.doe@example.com • +91 98765 43210 • Bangalore, IN</code>
+            {% elif key == 'phone' %}
+              Add phone in international format: <code>+91 98765 43210</code>
+            {% elif key.startswith('sec_') %}
+              Add a clear section header. Example:
+              <pre>Experience
+- Software Engineer at X (2022–Present)
+  • Implemented Y, improved Z by 30%</pre>
+            {% elif key == 'length' %}
+              Add 1–2 measurable bullet points under projects or experience.
+            {% else %}
+              Ensure resume contains plain-text contact details and section headers.
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<a class="btn btn-outline-secondary mt-3" href="#" onclick="history.back()">Back</a>
+{% endblock %}

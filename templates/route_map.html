@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>{{ months }}-Month Roadmap</h3>
+  {% for m, actions in timeline.items() %}
+    <div class="card" style="margin-bottom:8px">
+      <strong>Month {{ m }}</strong>
+      <ul>{% for a in actions %}<li>{{ a }}</li>{% endfor %}</ul>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

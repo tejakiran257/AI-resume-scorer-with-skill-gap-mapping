@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>JD Match — Ranked Resumes</h3>
+
+  {% if not results %}
+    <div class="small" style="color:var(--muted)">No JD submitted yet. Use the Recruiter Dashboard to paste or upload a JD.</div>
+    <div style="margin-top:12px"><a class="btn btn-ghost" href="{{ url_for('recruiter') }}">Back to dashboard</a></div>
+  {% else %}
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="flex:1">
+        <strong>JD preview</strong>
+        <pre class="resume-text">{{ jd_text[:3000] }}</pre>
+      </div>
+      <div style="width:280px">
+        <div class="card" style="padding:12px">
+          <div class="small">Top result</div>
+          <div style="margin-top:8px"><strong>{{ results[0].filename }}</strong></div>
+          <div class="small" style="margin-top:6px">Score: <strong>{{ results[0].score }}</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table" style="margin-top:14px">
+      <thead>
+        <tr><th>Rank</th><th>Resume</th><th>Uploader</th><th>Score</th><th>Missing skills</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for i,r in enumerate(results, start=1) %}
+        <tr>
+          <td>{{ i }}</td>
+          <td>{{ r.filename }}</td>
+          <td>{{ r.uploader }}</td>
+          <td>
+            <strong>{{ r.score }}</strong><br>
+            <small class="small">Skills: {{ r.skill_pct }}% • Sem: {{ r.semantic_pct }}%</small>
+          </td>
+          <td>
+            {% if r.missing %}{% for s in r.missing %}<span class="badge badge-warning">{{ s }}</span>{% endfor %}{% else %}<span class="small" style="color:var(--muted)">None</span>{% endif %}
+          </td>
+          <td>
+            <a class="btn btn-ghost" href="{{ url_for('recruiter_view_resume', rid=r.rid) }}">Open</a>
+            <a class="btn btn-primary" href="{{ url_for('analyze_stored', rid=r.rid) }}">Deep Analyze</a>
+            <a class="btn btn-ghost" href="{{ url_for('recruiter_download', rid=r.rid) }}">Download</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+</div>
+{% endblock %}

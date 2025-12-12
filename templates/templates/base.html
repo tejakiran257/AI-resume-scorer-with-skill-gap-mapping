@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI Resume Scorer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav class="navbar container">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="brand-dot"></div>
+      <div class="brand">AI Resume Scorer</div>
+    </div>
+    <div style="margin-left:auto">
+      {% if current_user.is_authenticated %}
+        <span class="small me-3">Signed in: <strong>{{ current_user.email }}</strong></span>
+        <a class="btn btn-ghost small" href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a class="btn btn-ghost small" href="{{ url_for('login_seeker') }}">Jobseeker</a>
+        <a class="btn btn-primary small" href="{{ url_for('login_recruiter') }}">Recruiter</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category,msg in messages %}
+          <div class="card"><div class="small" style="color: {% if category=='danger' %}#dc2626{% elif category=='warning' %}#b45309{% elif category=='success' %}#059669{% else %}#64748b{% endif %};">{{ msg }}</div></div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="card container" style="text-align:center;margin-top:18px">© 2025 AI Resume Scorer</footer>
+</body>
+</html>

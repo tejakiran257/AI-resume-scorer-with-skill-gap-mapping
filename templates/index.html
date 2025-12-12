@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hero card">
+  <div>
+    <h1>Smarter hiring with AI-assisted resume scoring</h1>
+    <p class="small">Upload resumes, run JD comparisons, get skill-gap roadmaps, ATS checks, and job suggestions.</p>
+    <div style="margin-top:12px">
+      <a class="btn btn-primary" href="{{ url_for('login_seeker') }}">I'm Jobseeker</a>
+      <a class="btn btn-ghost" href="{{ url_for('login_recruiter') }}">I'm Recruiter</a>
+    </div>
+  </div>
+  <div style="width:40%">
+    <div class="card" style="padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.7),#fff);text-align:center">
+      <div class="small">Demo accounts</div>
+      <div style="margin-top:8px"><strong>jobseeker@example.com / seeker123</strong></div>
+      <div style="margin-top:6px"><strong>recruiter@example.com / recruit123</strong></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

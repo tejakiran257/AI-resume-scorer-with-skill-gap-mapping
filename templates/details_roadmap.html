@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow-sm p-4 mb-4">
+  <h4>Roadmap — {{ months }} month(s)</h4>
+  <small class="text-muted">File: {{ filename }}</small>
+</div>
+
+<div class="mb-3">
+  <p class="lead">Month-by-month plan</p>
+  <p class="text-muted">Focus on 1–3 items per month for best results.</p>
+</div>
+
+<div class="timeline">
+  {% for m in range(1, months+1) %}
+    <div class="timeline-item mb-3 p-3 border rounded">
+      <div class="d-flex justify-content-between">
+        <div><strong>Month {{ m }}</strong></div>
+        <div class="text-muted small">Step {{ m }}</div>
+      </div>
+      <ul class="mt-2">
+        {% set actions = roadmap.get(m) %}
+        {% if not actions %}
+          <li class="text-muted"><em>No actions — focus on interview practice & refine projects.</em></li>
+        {% else %}
+          {% for a in actions %}
+            <li>{{ a }}</li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  {% endfor %}
+</div>
+
+<a class="btn btn-outline-secondary mt-3" href="#" onclick="history.back()">Back</a>
+{% endblock %}

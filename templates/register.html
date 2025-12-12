@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card auth-box">
+  <h3>Create an account</h3>
+  <form method="post" action="{{ url_for('register') }}">
+    <div class="mb-2"><input name="email" class="form-control" placeholder="you@example.com" required></div>
+    <div class="mb-2"><input name="password" type="password" class="form-control" placeholder="Choose a secure password" required></div>
+    <div class="mb-2">
+      <select name="role" class="form-select">
+        <option value="seeker">Jobseeker</option>
+        <option value="recruiter">Recruiter</option>
+      </select>
+    </div>
+    <div><button class="btn btn-primary w-100">Register</button></div>
+  </form>
+</div>
+{% endblock %}
